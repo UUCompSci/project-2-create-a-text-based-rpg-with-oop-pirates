@@ -1,4 +1,5 @@
 ﻿using static System.Console;
+using System.Runtime.CompilerServices;
 
 //Selection keys
 const ConsoleKey Z = ConsoleKey.Z;
@@ -82,5 +83,49 @@ class Character
     public override string ToString()
     {
         return $"{PlayerClass} (HP: {PlayerHealth}, STR: {PlayerStrength}, SPD: {PlayerSpeed})";
+    }
+}
+
+//Enemy Info
+namespace enemies1
+{
+
+    public class Enemies
+    {
+
+        private string name;
+        private int hitpoints;
+
+        private int strength;
+
+        private int speed;
+
+        private int experienceDrops;
+
+        private int goldDrops;
+        private bool isAlive;
+
+        public Enemies(string NM, int HP, int STR, int SPD, int EXP, int GOLD)
+        {
+            NM = name;
+            HP = hitpoints;
+            STR = strength;
+            SPD = speed;
+            GOLD = goldDrops;
+            EXP = experienceDrops;
+            if (hitpoints > 0)
+            {
+                isAlive = true;
+            }
+            else
+            {
+                isAlive = false;
+            }
+
+        }
+        private bool deathCheck()
+        {
+            return isAlive;
+        }
     }
 }
