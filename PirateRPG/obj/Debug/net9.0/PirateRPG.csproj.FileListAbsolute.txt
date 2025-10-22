@@ -1,0 +1,15 @@
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/bin/Debug/net9.0/PirateRPG
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/bin/Debug/net9.0/PirateRPG.deps.json
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/bin/Debug/net9.0/PirateRPG.runtimeconfig.json
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/bin/Debug/net9.0/PirateRPG.dll
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/bin/Debug/net9.0/PirateRPG.pdb
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.AssemblyInfoInputs.cache
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.AssemblyInfo.cs
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.csproj.CoreCompileInputs.cache
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.sourcelink.json
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.dll
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/refint/PirateRPG.dll
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.pdb
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/PirateRPG.genruntimeconfig.cache
+/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/Debug/net9.0/ref/PirateRPG.dll
