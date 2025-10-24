@@ -314,11 +314,21 @@ while (GameState == true)
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine("You dig up the grave of merchant Elon Musk.");
-                    WriteLine();
-                    WriteLine("It seems he didn't take too kindly to that!");
-                    DigUpAGrave = false;
-                    GraveyardFightLoop();
+                    if (RichMansSkeleton.hitpoints > 0)
+                    {
+                        WriteLine("You dig up the grave of merchant Elon Musk.");
+                        WriteLine();
+                        WriteLine("It seems he didn't take too kindly to that!");
+                        DigUpAGrave = false;
+                        GraveyardFightLoop();
+                    }
+                    else
+                    {
+                        WriteLine("You've done enough grave robbing for one day don't ya think?");
+                        DigUpAGrave = false;
+                        AtGraveyard = true;
+                        AtGraveyardLoop();
+                    }
                     break;
                 case X:
                     DigUpAGrave = false;
@@ -637,11 +647,21 @@ while (GameState == true)
             WriteLine("Fight? Z = Yes, X = No");
             while (ViewingEnemy == true)
             {
-                switch (ChoiceSelection())
-                {
-                    case Z:
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    if (RatKing.hitpoints > 0)
+                    {
                         ViewingEnemy = false;
                         CaveFightLoop();
+                    }
+                    else
+                    {
+                        WriteLine("The Rat King has already been felled from his throne.");
+                        ViewingEnemy = false;
+                        InCave = true;
+                        InCaveLoop();
+                    }
                         break;
                     case X:
                         WriteLine("Playing it safe is always an option.");
