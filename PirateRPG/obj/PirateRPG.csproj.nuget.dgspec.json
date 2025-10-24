@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj": {}
+    "/Users/anlumorgan/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj": {}
   },
   "projects": {
-    "/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj": {
+    "/Users/anlumorgan/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj",
+        "projectUniqueName": "/Users/anlumorgan/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj",
         "projectName": "PirateRPG",
-        "projectPath": "/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj",
-        "packagesPath": "/Users/jmoore/.nuget/packages/",
-        "outputPath": "/Users/jmoore/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/",
+        "projectPath": "/Users/anlumorgan/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/PirateRPG.csproj",
+        "packagesPath": "/Users/anlumorgan/.nuget/packages/",
+        "outputPath": "/Users/anlumorgan/Documents/GitHub/project-2-create-a-text-based-rpg-with-oop-pirates/PirateRPG/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/jmoore/.nuget/NuGet/NuGet.Config"
+          "/Users/anlumorgan/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
