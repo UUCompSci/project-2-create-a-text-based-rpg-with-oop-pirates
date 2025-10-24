@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PirateRPG")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1d3a7ed5d1cbf9f8a4d45d90853ba8905a87446a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96ceb1ebdf014102dc8de025dc12cc640e025649")]
 [assembly: System.Reflection.AssemblyProductAttribute("PirateRPG")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PirateRPG")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

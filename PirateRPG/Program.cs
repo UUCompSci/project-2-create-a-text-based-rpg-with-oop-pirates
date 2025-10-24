@@ -93,7 +93,7 @@ void CheckDeath()
 while (GameState == true)
 {
     bool InLocationSelection = false;
-    bool OnShip = true;
+    bool OnShip = false;
     bool AtPort = false;
     bool AtCityMarket = false;
     bool InCave = false;
@@ -103,6 +103,7 @@ while (GameState == true)
 
     void OnShipLoop()
     {
+        OnShip = true;
         while (OnShip == true)
         {
             WriteLine();
@@ -308,7 +309,12 @@ while (GameState == true)
             {
                 switch (ChoiceSelection())
                 {
-                    case Z:
+                case Z:
+                    SelectedCharacter.PlayerGold -= 3;
+                    WriteLine("Thanks kind traveler! Come again anytime!");
+                    BrowsingVendor = false;
+                    AtPort = true;
+                    AtPortLoop();
                         break;
                     case X:
                         BrowsingVendor = false;
@@ -348,74 +354,62 @@ while (GameState == true)
         void PortFightLoop()
         {
             bool PortFight = true;
-            while (PortFight == true)
+            while (PortFight && SelectedCharacter.PlayerHealth > 0 && CommonThug.hitpoints > 0)
             {
                 if (SelectedCharacter.PlayerSpeed < CommonThug.speed)
                 {
-                    while (SelectedCharacter.PlayerHealth > 0 & CommonThug.hitpoints > 0)
+                    WriteLine("Too Slow! The Thug Struck First!");
+                    SelectedCharacter.PlayerHealth -= CommonThug.strength;
+                    CheckDeath();
+                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health.");
+                    switch (ChoiceSelection())
                     {
-                        WriteLine("Too Slow! The Thug Struck First!");
-                        SelectedCharacter.PlayerHealth -= CommonThug.strength;
-                        CheckDeath();
-                        WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health, V = Run Away.");
-                        switch (ChoiceSelection())
-                        {
-                            case Z:
-                                WriteLine("{0}", CommonThug);
-                                break;
-                            case X:
-                                CommonThug.hitpoints -= SelectedCharacter.PlayerStrength;
-                                WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
-                                break;
-                            case C:
-                                WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
-                                break;
-                            case V:
-                                if (SelectedCharacter.PlayerSpeed > CommonThug.speed)
-                                {
-                                    PortFight = false;
-                                    AtPortLoop();
-                                }
-                                else
-                                {
-                                    WriteLine("Too slow! Can't get away!");
-                                }
-                                break;
-                        }
+                        case Z:
+                            WriteLine("{0} HP, {0} STR, {0} SPD", CommonThug.hitpoints, CommonThug.strength, CommonThug.speed);
+                            break;
+                        case X:
+                            CommonThug.hitpoints -= SelectedCharacter.PlayerStrength;
+                            WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                            break;
+                        case C:
+                            WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
+                            break;
                     }
-
                 }
-                else
-                {
+                    else
+            {
                     while (SelectedCharacter.PlayerHealth > 0 && CommonThug.hitpoints > 0)
                 {
-                        WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health, V = Run Away.");
+                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health."); 
                         switch (ChoiceSelection())
                         {
                             case Z:
-                                WriteLine("{0}", CommonThug);
+                                WriteLine("{0} HP, {0} STR, {0} SPD", CommonThug.hitpoints, CommonThug.strength, CommonThug.speed);
                                 break;
                             case X:
                                 CommonThug.hitpoints -= SelectedCharacter.PlayerStrength;
                                 WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                            SelectedCharacter.PlayerHealth -= CommonThug.strength;
+                            WriteLine("The thug retaliated and did {0} damage!", CommonThug.strength);
                                 break;
                             case C:
                                 WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
                                 break;
-                            case V:
-                                if (SelectedCharacter.PlayerSpeed > CommonThug.speed)
-                                {
-                                    PortFight = false;
-                                    AtPortLoop();
-                                }
-                                else
-                                {
-                                    WriteLine("Too slow! Can't get away!");
-                                }
-                                break;
                         }
                     }
                 }
+                if (CommonThug.hitpoints < 0)
+            {
+                WriteLine();
+                WriteLine("You've dealt the final blow, and the thug has fallen!");
+                SelectedCharacter.PlayerGold += CommonThug.goldDrops;
+                WriteLine();
+                WriteLine("Player has receieved {0} gold!", CommonThug.goldDrops);
+                PortFight = false;
+                AtPort = true;
+                AtPortLoop();
+            }
+                
             }
         }
 
@@ -507,12 +501,12 @@ namespace enemies1
 
         public Enemies(string NM, int HP, int STR, int SPD, int EXP, int GOLD)
         {
-            NM = name;
-            HP = hitpoints;
-            STR = strength;
-            SPD = speed;
-            GOLD = goldDrops;
-            EXP = experienceDrops;
+            name = NM;
+            hitpoints = HP;
+            strength = STR;
+            speed = SPD;
+            goldDrops = GOLD;
+            experienceDrops = EXP;
             if (hitpoints > 0)
             {
                 isAlive = true;
