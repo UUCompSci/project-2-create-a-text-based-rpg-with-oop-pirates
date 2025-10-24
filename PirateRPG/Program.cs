@@ -26,12 +26,16 @@ Character SelectedCharacter = Swashbuckler;
 
 bool ClassSelectionState = true;
 
-Enemies CommonThug = new("Common Thug", 10, 5, 9, 15, 2);
+Enemies CommonThug = new("Common Thug", 10, 5, 9, 15, 15);
+Enemies RatKing = new("Rat King", 125, 8, 10, 75, 150);
+Enemies RichMansSkeleton = new("Elon Musk", 30, 3, 5, 10, 100);
 
 //Locations
 Location Ship = new() { LocationDescription = "Your ship. It's not big or flashy, but its yours.", LocationHostility = "It's YOUR ship. Of course there's no enemies!" };
-Location Port = new() { LocationDescription = "The port is bustling with all kinds of people. From innocent children to slimy merchants. You even see a fish vendor waving you down.", LocationHostility = "Besides a few street thugs its realtively peacful, but the bounties on those low level thugs are still worht gold!" };
-Location CityMarket = new() { LocationDescription = "The market is busy, there's many things to buy", LocationHostility = "not that hostile" };
+Location Port = new() { LocationDescription = "The port is bustling with all kinds of people. From innocent children to slimy merchants. You even see a fish vendor waving you down.", LocationHostility = "Besides a few street thugs its realtively peacful, but the bounties on those low level thugs are still worth gold!" };
+Location CityMarket = new() { LocationDescription = "The market is busy, there's many things to buy", LocationHostility = "Aside from the hostile business practice theres not much going on here." };
+Location Cave = new() { LocationDescription = "A dark, damp cave. You can hear the scurrying of rats echoing through the caverns.", LocationHostility = "You sense danger lurking in the shadows." };
+Location Graveyard = new() { LocationDescription = "An old graveyard filled with crumbling tombstones and overgrown weeds. The air is thick with an eerie silence.", LocationHostility = "There might be some ghosts looking at you. Who knows." };
 
 WriteLine();
 WriteLine("Select your class:");
@@ -182,7 +186,7 @@ while (GameState == true)
             }
         }
     }
-        
+
     void AtCityMarketLoop()
     {
         WriteLine("");
@@ -202,8 +206,7 @@ while (GameState == true)
                     break;
                 case C:
                     WriteLine("{0}", CityMarket.LocationHostility);
-                    AtCityMarket = false;
-                    CityMarketEnemyEncounterLoop();
+                    AtCityMarketLoop();
                     break;
                 case V:
                     AtCityMarket = false;
@@ -214,16 +217,122 @@ while (GameState == true)
             }
         }
     }
-    void CityMarketEnemyEncounterLoop() // finish this later
+    void InCaveLoop()
     {
-        bool ViewingEnemy = true;
         WriteLine();
-        WriteLine("Fight? Z = Yes, X = No");
+        WriteLine("What will you do? Z = Check Location, X = Check Character Info, C = Check Location Hostility, V = Explore.");
+        while (InCave == true)
+        {
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine("{0}", Cave.LocationDescription);
+                    InCave = false;
+                    CaveDescriptionLoop();
+                    break;
+                case X:
+                    WriteLine("{0}", SelectedCharacter);
+                    InCaveLoop();
+                    break;
+                case C:
+                    WriteLine("{0}", Cave.LocationHostility);
+                    InCave = false;
+                    InCaveEnemyEncounterLoop();
+                    break;
+                case V:
+                    InCave = false;
+                    InLocationSelection = true;
+                    LocationSelectionLoop();
+                    break;
+            }
+        }
+    }
+    void CaveDescriptionLoop()
+    {
+        bool SearchForTreasure = true;
+        WriteLine();
+        WriteLine("You see a shambling mound in the corner, best too ignore it.");
+        WriteLine("Search For Treasure? Z = Yes, X = No.");
+        while (SearchForTreasure = true)
+        {
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine("You search for treasure");
+                    WriteLine();
+                    WriteLine("You found a small pouch of gold! +5 Gold");
+                    SelectedCharacter.PlayerGold += 5;
+                    SearchForTreasure = false;
+                    InCave = true;
+                    InCaveLoop();
+                    break;
+                case X:
+                    SearchForTreasure = false;
+                    InCave = true;
+                    InCaveLoop();
+                    break;
+            }
+        }
+    }
+    void AtGraveyardLoop()
+    {
+        WriteLine();
+        WriteLine("What will you do? Z = Check Location, X = Check Character Info, C = Check Location Hostility, V = Explore.");
+        while (AtGraveyard == true)
+        {
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine("{0}", Graveyard.LocationDescription);
+                    AtGraveyard = false;
+                    AtGraveyardDescriptionLoop();
+                    break;
+                case X:
+                    WriteLine("{0}", SelectedCharacter);
+                    AtGraveyardLoop();
+                    break;
+                case C:
+                    WriteLine("{0}", Graveyard.LocationHostility);
+                    AtGraveyardLoop();
+                    break;
+                case V:
+                    AtGraveyard = false;
+                    InLocationSelection = true;
+                    LocationSelectionLoop();
+                    break;
+            }
+        }
+    }
+    void AtGraveyardDescriptionLoop()
+    {
+        bool DigUpAGrave = true;
+        WriteLine();
+        WriteLine("While walking around you notice the grave of a very rich man decorated in gold lining.");
+        WriteLine("Dig up the grave? Z = Yes, X = No.");
+        while (DigUpAGrave = true)
+        {
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine("You dig up the grave of merchant Elon Musk.");
+                    WriteLine();
+                    WriteLine("It seems he didn't take too kindly to that!");
+                    DigUpAGrave = false;
+                    GraveyardFightLoop();
+                    break;
+                case X:
+                    DigUpAGrave = false;
+                    AtGraveyard = true;
+                    AtGraveyardLoop();
+                    break;
+            }
+        }
     }
 
     void CityMarketDescriptionLoop()
     {
         bool TalkingToBlacksmith = true;
+        WriteLine("There's not many stores that catch your eye, except a blacksmith.");
         WriteLine("Do you want to visit the blacksmith? Z = Yes, X = No");
         while (TalkingToBlacksmith = true)
         {
@@ -246,52 +355,89 @@ while (GameState == true)
     void BlacksmithLoop()
     {
         bool BrowsingBlacksmith = true;
-        while (BrowsingBlacksmith = true)
+        while (BrowsingBlacksmith == true)
         {
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine("Weapons available: Z = Cutlass, X = Dagger, C = Flintlock Pistols, V = Exit Blacksmith");
+                    WriteLine("Weapons available: Z = Cutlass(+20 STR -25 GLD), X = Dagger(+10 STR -15GLD), C = Flintlock Pistols(+40 STR -45 GLD), V = Exit Blacksmith");
                     BrowsingBlacksmith = false;
                     WeaponsLoop();
                     break;
                 case X:
                     BrowsingBlacksmith = false;
-                    WeaponsLoop();
-                    break;
-                case C:
-                    BrowsingBlacksmith = false;
-                    WeaponsLoop();
-                    break;
-                case V:
-                    BrowsingBlacksmith = false;
+                    AtCityMarket = true;
                     AtCityMarketLoop();
                     break;
             }
         }
     }
-    
+
     void WeaponsLoop()
     {
         bool ChooseWeapon = true;
-        while (ChooseWeapon = true)
+        while (ChooseWeapon == true)
         {
             switch (ChoiceSelection())
             {
                 case Z:
-                    WriteLine("You chose the cutlass, a short sword good for close combat! Str: +20");
-                    ChooseWeapon = false;
-                    AtCityMarket = true;
-                    AtCityMarketLoop();
+                    if (SelectedCharacter.PlayerGold >= 25)
+                    {
+                        WriteLine("You chose the cutlass, a short sword good for close combat! Str: +20");
+                        SelectedCharacter.PlayerStrength += (int)Strength.Cutlass;
+                        SelectedCharacter.PlayerGold -= 25;
+                        WriteLine("Strength is now: {0}", SelectedCharacter.PlayerStrength);
+                        ChooseWeapon = false;
+                        AtCityMarket = true;
+                        AtCityMarketLoop();
+                    }
+                    else
+                    {
+                        WriteLine("No gold no weapons! Now get out of my shop!");
+                        ChooseWeapon = false;
+                        AtCityMarket = true;
+                        AtCityMarketLoop();
+                    }
                     break;
                 case X:
-                    WriteLine("You chose the Dagger, a short blade good for close combat! Str: +10 ");
-                    ChooseWeapon = false;
-                    AtCityMarket = true;
-                    AtCityMarketLoop();
+                    if (SelectedCharacter.PlayerGold >= 15)
+                    {
+                        WriteLine("You chose the Dagger, a short blade good for close combat! Str: +10 ");
+                        SelectedCharacter.PlayerStrength += (int)Strength.Dagger;
+                        SelectedCharacter.PlayerGold -= 15;
+                        WriteLine("Strength is now: {0}", SelectedCharacter.PlayerStrength);
+                        ChooseWeapon = false;
+                        AtCityMarket = true;
+                        AtCityMarketLoop();
+                    }
+                    else
+                    {
+                        WriteLine("No gold no weapons! Now get out of my shop!");
+                        ChooseWeapon = false;
+                        AtCityMarket = true;
+                        AtCityMarketLoop();
+                    }
                     break;
                 case C:
-                    WriteLine("You chose the Flintlock Pistols, single hand firearms often used in pairs and good for close combat! Str: +40 ");
+                    if (SelectedCharacter.PlayerGold >= 45)
+                    {
+                        WriteLine("You chose the Flintlock Pistols, single hand firearms often used in pairs and good for close combat! Str: +40 ");
+                        SelectedCharacter.PlayerStrength += (int)Strength.FlintlockPistols;
+                        SelectedCharacter.PlayerGold -= 45;
+                        WriteLine("Strength is now: {0}", SelectedCharacter.PlayerStrength);
+                        ChooseWeapon = false;
+                        AtCityMarket = true;
+                        AtCityMarketLoop();
+                    }
+                    else
+                    {
+                        WriteLine("No gold no weapons! Now get out of my shop!");
+                        ChooseWeapon = false;
+                        AtCityMarket = true;
+                        AtCityMarketLoop();
+                    }
+                    break;
+                case V:
                     ChooseWeapon = false;
                     AtCityMarket = true;
                     AtCityMarketLoop();
@@ -300,105 +446,133 @@ while (GameState == true)
         }
     }
 
-        
 
-        void VendorBrowseLoop()
+
+
+    void VendorBrowseLoop()
+    {
+        bool BrowsingVendor = true;
+        while (BrowsingVendor == true)
         {
-            bool BrowsingVendor = true;
-            while (BrowsingVendor == true)
+            switch (ChoiceSelection())
             {
-                switch (ChoiceSelection())
-                {
                 case Z:
-                    SelectedCharacter.PlayerGold -= 3;
-                    WriteLine("Thanks kind traveler! Come again anytime!");
-                    BrowsingVendor = false;
-                    AtPort = true;
-                    AtPortLoop();
-                        break;
-                    case X:
+                    if (SelectedCharacter.PlayerGold >= 3)
+                    {
+                        SelectedCharacter.PlayerGold -= 3;
+                        SelectedCharacter.PlayerHealth += 5;
+                        WriteLine("Thanks kind traveler! Come again anytime!");
                         BrowsingVendor = false;
                         AtPort = true;
                         AtPortLoop();
-                        break;
+                    }
+                    else
+                    {
+                        WriteLine("Don't try to buy something you don't have the gold to pay for!");
+                        BrowsingVendor = false;
+                        AtPort = true;
+                        AtPortLoop();
+                    }
+                    break;
+                case X:
+                    BrowsingVendor = false;
+                    AtPort = true;
+                    AtPortLoop();
+                    break;
 
 
-                }
             }
         }
+    }
 
-        void PortEnemyEncounterLoop()
+    void PortEnemyEncounterLoop()
+    {
+        bool ViewingEnemy = true;
+
+        WriteLine();
+        WriteLine("Fight? Z = Yes, X = No");
+        while (ViewingEnemy == true)
         {
-            bool ViewingEnemy = true;
-
-            WriteLine();
-            WriteLine("Fight? Z = Yes, X = No");
-            while (ViewingEnemy == true)
+            switch (ChoiceSelection())
             {
-                switch (ChoiceSelection())
-                {
-                    case Z:
+                case Z:
+                    if (CommonThug.hitpoints > 0)
+                    {
                         ViewingEnemy = false;
                         PortFightLoop();
-                        break;
-                    case X:
-                        WriteLine("Playing it safe is always an option.");
+                    }
+                    else
+                    {
+                        WriteLine("You've alread defeated the thug in this location.");
                         ViewingEnemy = false;
                         AtPort = true;
                         AtPortLoop();
+                    }
+                    break;
+                case X:
+                    WriteLine("Playing it safe is always an option.");
+                    ViewingEnemy = false;
+                    AtPort = true;
+                    AtPortLoop();
+                    break;
+            }
+        }
+    }
+
+    void PortFightLoop()
+    {
+        bool PortFight = true;
+        while (PortFight && SelectedCharacter.PlayerHealth > 0 && CommonThug.hitpoints > 0)
+        {
+            if (SelectedCharacter.PlayerSpeed < CommonThug.speed)
+            {
+                WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health.");
+                switch (ChoiceSelection())
+                {
+                    case Z:
+                        WriteLine("{0} HP, {1} STR, {2} SPD", CommonThug.hitpoints, CommonThug.strength, CommonThug.speed);
+                        break;
+                    case X:
+                        WriteLine("Too Slow! The Thug Struck First!");
+                        SelectedCharacter.PlayerHealth -= CommonThug.strength;
+                        CheckDeath();
+                        if (SelectedCharacter.PlayerHealth > 0)
+                        {
+                            CommonThug.hitpoints -= SelectedCharacter.PlayerStrength;
+                            WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                        }
+                        break;
+                    case C:
+                        WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
                         break;
                 }
             }
-        }
-
-        void PortFightLoop()
-        {
-            bool PortFight = true;
-            while (PortFight && SelectedCharacter.PlayerHealth > 0 && CommonThug.hitpoints > 0)
+            else
             {
-                if (SelectedCharacter.PlayerSpeed < CommonThug.speed)
+                while (SelectedCharacter.PlayerHealth > 0 && CommonThug.hitpoints > 0)
                 {
-                    WriteLine("Too Slow! The Thug Struck First!");
-                    SelectedCharacter.PlayerHealth -= CommonThug.strength;
-                    CheckDeath();
                     WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health.");
                     switch (ChoiceSelection())
                     {
                         case Z:
-                            WriteLine("{0} HP, {0} STR, {0} SPD", CommonThug.hitpoints, CommonThug.strength, CommonThug.speed);
+                            WriteLine("{0} HP, {1} STR, {2} SPD", CommonThug.hitpoints, CommonThug.strength, CommonThug.speed);
                             break;
                         case X:
                             CommonThug.hitpoints -= SelectedCharacter.PlayerStrength;
                             WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                            if (CommonThug.hitpoints > 0)
+                            {
+                                SelectedCharacter.PlayerHealth -= CommonThug.strength;
+                                WriteLine("The thug retaliated and did {0} damage!", CommonThug.strength);
+                            }
                             break;
                         case C:
                             WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
                             break;
                     }
                 }
-                    else
-            {
-                    while (SelectedCharacter.PlayerHealth > 0 && CommonThug.hitpoints > 0)
-                {
-                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health."); 
-                        switch (ChoiceSelection())
-                        {
-                            case Z:
-                                WriteLine("{0} HP, {0} STR, {0} SPD", CommonThug.hitpoints, CommonThug.strength, CommonThug.speed);
-                                break;
-                            case X:
-                                CommonThug.hitpoints -= SelectedCharacter.PlayerStrength;
-                                WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
-                            SelectedCharacter.PlayerHealth -= CommonThug.strength;
-                            WriteLine("The thug retaliated and did {0} damage!", CommonThug.strength);
-                                break;
-                            case C:
-                                WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
-                                break;
-                        }
-                    }
-                }
-                if (CommonThug.hitpoints < 0)
+            }
+            if (CommonThug.hitpoints < 0)
             {
                 WriteLine();
                 WriteLine("You've dealt the final blow, and the thug has fallen!");
@@ -409,51 +583,217 @@ while (GameState == true)
                 AtPort = true;
                 AtPortLoop();
             }
-                
+
+        }
+    }
+
+    void LocationSelectionLoop()
+    {
+        while (InLocationSelection == true)
+        {
+
+            WriteLine();
+            WriteLine("Available Locations: Z = Ship, X = Port, C = City Market, V = Cave, B = Graveyard.");
+            switch (ChoiceSelection())
+            {
+                case Z:
+                    WriteLine("Heading to your ship.");
+                    InLocationSelection = false;
+                    OnShip = true;
+                    OnShipLoop();
+                    break;
+                case X:
+                    WriteLine("Heading to the port.");
+                    InLocationSelection = false;
+                    AtPort = true;
+                    AtPortLoop();
+                    break;
+                case C:
+                    WriteLine("Heading to the market.");
+                    InLocationSelection = false;
+                    AtCityMarket = true;
+                    AtCityMarketLoop();
+                    break;
+                case V:
+                    WriteLine("Heading to the cave.");
+                    InLocationSelection = false;
+                    InCave = true;
+                    InCaveLoop();
+                    break;
+                case B:
+                    WriteLine("Heading to the graveyard.");
+                    InLocationSelection = false;
+                    AtGraveyard = true;
+                    AtGraveyardLoop();
+                    break;
             }
         }
-
-        void LocationSelectionLoop()
+    }
+    void InCaveEnemyEncounterLoop()
         {
-            while (InLocationSelection == true)
+            bool ViewingEnemy = true;
+            WriteLine();
+            WriteLine("That weird mound moving around is the only movement you spot. Surely it's alive.");
+            WriteLine("Fight? Z = Yes, X = No");
+            while (ViewingEnemy == true)
             {
-
-                WriteLine();
-                WriteLine("Available Locations: Z = Ship, X = Port, C = City Market, V = Cave, B = Graveyard.");
                 switch (ChoiceSelection())
                 {
                     case Z:
-                        WriteLine("Heading to your ship.");
-                        InLocationSelection = false;
-                        OnShip = true;
-                        OnShipLoop();
+                        ViewingEnemy = false;
+                        CaveFightLoop();
                         break;
                     case X:
-                        WriteLine("Heading to the port.");
-                        InLocationSelection = false;
-                        AtPort = true;
-                        AtPortLoop();
-                        break;
-                    case C:
-                        WriteLine("Heading to the market.");
-                        InLocationSelection = false;
-                        AtCityMarket = true;
-                        AtCityMarketLoop();
-                        break;
-                    case V:
-                        WriteLine("Heading to the cave.");
-                        InLocationSelection = false;
+                        WriteLine("Playing it safe is always an option.");
+                        ViewingEnemy = false;
                         InCave = true;
-                        break;
-                    case B:
-                        WriteLine("Heading to the graveyard.");
-                        InLocationSelection = false;
-                        AtGraveyard = true;
+                        InCaveLoop();
                         break;
                 }
             }
         }
-    }
+
+        void CaveFightLoop()
+        {
+            bool CaveFight = true;
+            WriteLine();
+            WriteLine("That shambling mound was the Rat King and his Horde!");
+            while (CaveFight && SelectedCharacter.PlayerHealth > 0 && RatKing.hitpoints > 0)
+            {
+                if (SelectedCharacter.PlayerSpeed < RatKing.speed)
+                {
+                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health.");
+                    switch (ChoiceSelection())
+                    {
+                        case Z:
+                            WriteLine("{0} HP, {1} STR, {2} SPD", RatKing.hitpoints, RatKing.strength, RatKing.speed);
+                            break;
+                        case X:
+                            WriteLine("Too Slow! The Rat King's Horde Struck First!");
+                            SelectedCharacter.PlayerHealth -= RatKing.strength;
+                            CheckDeath();
+                        if (SelectedCharacter.PlayerHealth > 0)
+                        {
+                            RatKing.hitpoints -= SelectedCharacter.PlayerStrength;
+                            WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                        }
+                            break;
+                        case C:
+                            WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
+                            break;
+                    }
+                }
+                    else
+            {
+                    while (SelectedCharacter.PlayerHealth > 0 && RatKing.hitpoints > 0)
+                {
+                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health."); 
+                        switch (ChoiceSelection())
+                        {
+                            case Z:
+                                WriteLine("{0} HP, {1} STR, {2} SPD", RatKing.hitpoints, RatKing.strength, RatKing.speed);
+                                break;
+                            case X:
+                                RatKing.hitpoints -= SelectedCharacter.PlayerStrength;
+                                WriteLine("You strike into the Rat King and his Horde  for {0} damage!", SelectedCharacter.PlayerStrength);
+                            if (RatKing.hitpoints > 0)
+                            {
+                                SelectedCharacter.PlayerHealth -= RatKing.strength;
+                                WriteLine("The Rat King screeches and does {0} damage!", RatKing.strength);
+                            }
+                                break;
+                            case C:
+                                WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
+                                break;
+                        }
+                    }
+                }
+                if (RatKing.hitpoints < 0)
+            {
+                WriteLine();
+                WriteLine("You've dealt the final blow, and the thug has fallen!");
+                SelectedCharacter.PlayerGold += RatKing.goldDrops;
+                WriteLine();
+                WriteLine("Player has receieved {0} gold!", RatKing.goldDrops);
+                CaveFight = false;
+                InCave = true;
+                InCaveLoop();
+            }
+                
+            }
+        }
+
+        void GraveyardFightLoop()
+        {
+            bool GraveyardFight = true;
+            while (GraveyardFight && SelectedCharacter.PlayerHealth > 0 && RichMansSkeleton.hitpoints > 0)
+            {
+                if (SelectedCharacter.PlayerSpeed < RichMansSkeleton.speed)
+                {
+                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health.");
+                    switch (ChoiceSelection())
+                    {
+                        case Z:
+                            WriteLine("{0} HP, {1} STR, {2} SPD", RichMansSkeleton.hitpoints, RichMansSkeleton.strength, RichMansSkeleton.speed);
+                            break;
+                        case X:
+                            WriteLine("Too Slow! The Thug Struck First!");
+                            SelectedCharacter.PlayerHealth -= RichMansSkeleton.strength;
+                            CheckDeath();
+                        if (SelectedCharacter.PlayerHealth > 0)
+                        {
+                            RichMansSkeleton.hitpoints -= SelectedCharacter.PlayerStrength;
+                            WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                        }
+                            break;
+                        case C:
+                            WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
+                            break;
+                    }
+                }
+                    else
+            {
+                    while (SelectedCharacter.PlayerHealth > 0 && RichMansSkeleton.hitpoints > 0)
+                {
+                    WriteLine("What will you do? Z = Check Enemy, X = Attack, C = Check Health."); 
+                        switch (ChoiceSelection())
+                        {
+                            case Z:
+                                WriteLine("{0} HP, {1} STR, {2} SPD", RichMansSkeleton.hitpoints, RichMansSkeleton.strength, RichMansSkeleton.speed);
+                                break;
+                            case X:
+                                RichMansSkeleton.hitpoints -= SelectedCharacter.PlayerStrength;
+                                WriteLine("You hit the thug for {0} damage!", SelectedCharacter.PlayerStrength);
+                            if (RichMansSkeleton.hitpoints > 0)
+                            {
+                                SelectedCharacter.PlayerHealth -= RichMansSkeleton.strength;
+                                WriteLine("The thug retaliated and did {0} damage!", RichMansSkeleton.strength);
+                            }                          
+                                break;
+                            case C:
+                                WriteLine("Your Health is {0}.", SelectedCharacter.PlayerHealth);
+                                break;
+                        }
+                    }
+                }
+                if (RichMansSkeleton.hitpoints < 0)
+            {
+                WriteLine();
+                WriteLine("You've dealt the final blow, and the thug has fallen!");
+                SelectedCharacter.PlayerGold += RichMansSkeleton.goldDrops;
+                WriteLine();
+                WriteLine("Player has received {0} gold!", RichMansSkeleton.goldDrops);
+                GraveyardFight = false;
+                AtGraveyard = true;
+                AtGraveyardLoop();
+            }
+                
+            }
+        }
+}
+    
+
+    
 
 class Character
 {
@@ -522,6 +862,15 @@ namespace enemies1
             return isAlive;
         }
     }
+}
+
+//weapon initialization
+
+enum Strength
+{
+    Cutlass = 20,
+    Dagger = 10,
+    FlintlockPistols = 40
 }
 
 record Location
